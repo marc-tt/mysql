@@ -182,6 +182,11 @@ module MysqlCookbook
       'mysql' # not one of the above
     end
 
+    def v80plus
+      return false if version.split('.')[0].to_i < 8
+      true
+    end
+
     def v56plus
       return false if version.split('.')[0].to_i < 5
       return false if version.split('.')[1].to_i < 6
@@ -189,6 +194,7 @@ module MysqlCookbook
     end
 
     def v57plus
+      return true if v80plus
       return false if version.split('.')[0].to_i < 5
       return false if version.split('.')[1].to_i < 7
       true
