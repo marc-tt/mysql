@@ -48,6 +48,11 @@ module MysqlCookbook
       false
     end
 
+    def focal?
+      return true if node['platform'] == 'ubuntu' && node['platform_version'] == '20.04'
+      false
+    end
+
     def defaults_file
       "#{etc_dir}/my.cnf"
     end
@@ -79,6 +84,7 @@ module MysqlCookbook
       return '5.5' if trusty?
       return '5.7' if xenial?
       return '5.7' if bionic?
+      return '8.0' if focal?
 
       # misc
       return '5.6' if node['platform'] == 'freebsd'
@@ -111,6 +117,7 @@ module MysqlCookbook
       return ['mysql-client-5.5', 'libmysqlclient-dev'] if major_version == '5.5' && node['platform_family'] == 'debian'
       return ['mysql-client-5.6', 'libmysqlclient-dev'] if major_version == '5.6' && node['platform_family'] == 'debian'
       return ['mysql-client-5.7', 'libmysqlclient-dev'] if major_version == '5.7' && node['platform_family'] == 'debian'
+      return ['mysql-client-8.0', 'libmysqlclient-dev'] if major_version == '8.0' && node['platform_family'] == 'debian'
       return 'mysql-community-server-client' if major_version == '5.6' && node['platform_family'] == 'suse'
       %w(mysql-community-client mysql-community-devel)
     end
@@ -123,6 +130,7 @@ module MysqlCookbook
       return 'mysql-server-5.5' if major_version == '5.5' && node['platform_family'] == 'debian'
       return 'mysql-server-5.6' if major_version == '5.6' && node['platform_family'] == 'debian'
       return 'mysql-server-5.7' if major_version == '5.7' && node['platform_family'] == 'debian'
+      return 'mysql-server-8.0' if major_version == '8.0' && node['platform_family'] == 'debian'
       return 'mysql-community-server' if major_version == '5.6' && node['platform_family'] == 'suse'
       'mysql-community-server'
     end
